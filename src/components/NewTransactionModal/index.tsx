@@ -1,5 +1,5 @@
-    import { useState } from 'react';
-import Modal from 'react-modal';
+    import { FormEvent, useState } from 'react';
+    import Modal from 'react-modal';
     import closeImg from '../../assets/close.svg';
     import incomeImg from '../../assets/income.svg';
     import outcomeImg from '../../assets/outcome.svg';
@@ -11,7 +11,22 @@ import Modal from 'react-modal';
     }
 
     export function NewTransactionModal({isOpen, onRequestClose} :newTransactionModalProps) {
+        const [title,setTitle] = useState('');
+        const [value, setValue] = useState(0);
+        const [category, setCategory] = useState('');
         const [type, setType] = useState('deposit');
+
+        //pegando event do submit e tratando os dados
+        function handleCreateNewTransaction(event: FormEvent) {
+            event.preventDefault();
+
+            console.log({
+                title,
+                value,
+                category,
+                type
+            })
+        }
 
         return (
         <Modal isOpen={isOpen}
@@ -26,12 +41,23 @@ import Modal from 'react-modal';
                     <img src={closeImg} alt="Fechar modal" />
                 </button>
 
-                <Container>
+                <Container onSubmit={handleCreateNewTransaction}>
                 <h2>Cadastrar Transação</h2>
 
-                <input placeholder="Titulo"/>
+                <input 
+                placeholder="Titulo"
+                value={title}
+                //pegando os dados do input e mandando para o estado
+                onChange={event=>setTitle(event.target.value)} 
+                />
                 
-                <input type="number" placeholder="Valor"/>
+                <input 
+                type="number" 
+                placeholder="Valor"
+                value={value}
+                //convertendo a resposta em number e enviando para o estado
+                onChange={event=>setValue(Number(event.target.value))} 
+                />
 
                 <TransactionTypeContainer >
                     <RadioBox type="button"
@@ -55,7 +81,11 @@ import Modal from 'react-modal';
                     
                 </TransactionTypeContainer>
                 
-                <input placeholder="Categoria"/>
+                <input 
+                placeholder="Categoria"
+                value={category}
+                onChange={event=>setCategory(event.target.value)}
+                />
                 
                 <button type = "submit">
                     Cadastrar

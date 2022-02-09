@@ -54,6 +54,7 @@ export const TransactionTypeContainer = styled.div `
     gap:0.5rem;
 `;
 
+/**Interfaces e metodos para os botoes do modal */
 interface RadioBoxProps {
     isActive: boolean;
     activeColor : 'green' | 'red';
